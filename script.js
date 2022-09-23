@@ -11,23 +11,17 @@ form.onsubmit = (e)=>{
   apiCall()
 }
 
-const apiCall = ()=>{
+const apiCall = async()=>{
   p.classList.toggle('show')
-  fetch(`https://api.giphy.com/v1/gifs/translate?api_key=naWr4njlvFIb0UIzdrr2f8BixPuPopP0&s=${word}`, {mode: 'cors'})
-  .then(function(response) {
-    return response.json();
-  })
-  .then((res)=>{
-      img.src = res.data.images.original.url;
-      btnDisplay()
-    }).catch((data)=>{
-      alert(data);
-    }); 
-    
+  const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=naWr4njlvFIb0UIzdrr2f8BixPuPopP0&s=${word}`, {mode: 'cors'});
+  const data = await response.json();
+  img.src = data.data.images.original.url;
+  btnDisplay()
   }
+
   const btnDisplay = ()=>{
-  p.classList.toggle('show')
-  btn.innerHTML = `More ${word}`;
+    btn.innerHTML = `More ${word}`;
+    p.classList.toggle('show')
 }
 apiCall()
 btn.onclick = apiCall
